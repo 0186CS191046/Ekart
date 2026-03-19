@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import config from "../config/index.js";
 import Session from "../models/session.js";
+import cloudinary from "../utils/cloudinary.js";
 
 export const register = async (req, res) => {
     try {
@@ -236,10 +237,10 @@ export const changePassword = async (req, res) => {
             return res.status(400).json({ success: false, message: "User not exists!" })
         }
 
-        if(password !== confirmPassword){
-             return res.status(400).json({ success: false, message: "Password didn't match!" })
+        if (password !== confirmPassword) {
+            return res.status(400).json({ success: false, message: "Password didn't match!" })
         }
-        const hashPass = await bcrypt.hash(password,10);
+        const hashPass = await bcrypt.hash(password, 10);
         user.password = hashPass
         await user.save();
         return res.status(200).json({ success: true, message: "Password changed successfully!" })
@@ -249,24 +250,82 @@ export const changePassword = async (req, res) => {
     }
 }
 
-export const getAllUsers = async(req,res) => {
+export const getAllUsers = async (req, res) => {
     try {
         const allusers = await User.find();
-        return res.status(200).json({ success: true, message: "Users fetched successfully!",users:allusers })
+        return res.status(200).json({ success: true, message: "Users fetched successfully!", users: allusers })
     } catch (error) {
         console.log(error);
         return res.status(500).json({ success: false, message: "Something went wrong!" })
     }
 }
 
-export const getUserById = async(req,res)=>{
-     try {
-        const {id} = req.params
+export const getUserById = async (req, res) => {
+    try {
+        const { id } = req.params
         const user = await User.findById(id).select("-password -token -otp -otpExpiry ");
-        if(!user){
-             return res.status(400).json({ success: false, message: "User not exists!" })
+        if (!user) {
+            return res.status(400).json({ success: false, message: "User not exists!" })
         }
-        return res.status(200).json({ success: true, message: "Users fetched successfully!",users:user })
+        return res.status(200).json({ success: true, message: "Users fetched successfully!", users: user })
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ success: false, message: "Something went wrong!" })
+    }
+};
+
+export const updateUser = async (req, res) => {
+    try {
+        const { id } = req.params
+        const loggedInuser = req.user
+        const { firstName, lastName, phoneNo, address, city, zipcode, role } = req.body;
+
+        if (loggedInuser._id.toString() !== id && loggedInuser.role !== "admin") {
+            return res.status(400).json({ success: false, message: "You are not allowed to update this profile!" })
+        };
+
+        let user = await User.findById(id);
+        if (!user) {
+            return res.status(403).json({ success: false, message: "User not exists!" })
+        }
+
+        let profilePicUrl = user.profilePic;
+        let profilePicPublicId = user.profilePicPublicId;
+
+        if (req.file) {
+            if (profilePicPublicId) {
+                await cloudinary.uploader.destroy(profilePicPublicId)
+            }
+
+            const uploadResult = await new Promise((res, rej) => {
+                const stream = cloudinary.uploader.upload_stream({
+                    folder: "profiles"
+                },
+                    (error, result) => {
+                        if (error) rej(error);
+                        else { res(result) }
+                    }
+                );
+
+                stream.end(req.file.buffer);
+            })
+            profilePicUrl = uploadResult.secure_url;
+            profilePicPublicId = uploadResult.public_id
+
+        }
+
+        user.firstName = firstName || user.firstName;
+        user.lastName = lastName || user.lastName;
+        user.phoneNumber = phoneNo || user.phoneNumber;
+        user.address = address || user.address;
+        user.city = city || user.city;
+        user.zipcode = zipcode || user.zipcode;
+        user.profilePic = profilePicUrl;
+        user.profilePicPublicId = profilePicPublicId;
+        user.role = role
+
+        const updatedUser = await user.save()
+        return res.status(200).json({ success: true, message: "Users updated successfully!", user: updatedUser })
     } catch (error) {
         console.log(error);
         return res.status(500).json({ success: false, message: "Something went wrong!" })

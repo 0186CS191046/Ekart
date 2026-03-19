@@ -48,7 +48,7 @@ const Navbar = () => {
                     <ul className="flex gap-6 items-center">
                         <Link to="/"><li>Home</li></Link>
                         <Link to="/products"><li>Products</li></Link>
-                        {user && <Link to="/profile"><li>Hello {user.firstName}</li></Link>}
+                        {user && <Link to={`/profile/${user._id}`}><li>Hello {user.firstName}</li></Link>}
                     </ul>
 
                     {/* Cart */}
@@ -65,7 +65,7 @@ const Navbar = () => {
                             Logout
                         </Button>
                     ) : (
-                        <Button onClick={() => navigate("/login")} className="bg-gradient-to-r from-blue-600 to-purple-600">
+                        <Button onClick={() => navigate("/login")} className="bg-gradient-to-r from-blue-600 to-purple-600 cursor-pointer">
                             Login
                         </Button>
                     )}

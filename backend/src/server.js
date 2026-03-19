@@ -8,7 +8,9 @@ const app = express();
 
 // middlewares
 app.use(express.json());
-app.use(cors({ origin: "http://localhost:5173", methods: ["get", "post", "put", "delete"], credentials: true }))
+app.use(express.urlencoded({extended:true}));
+
+app.use(cors({ origin: "http://localhost:5173", methods: ["GET", "POST", "PUT", "DELETE"], credentials: true }))
 
 app.use("/api/v1/", userRoutes);
 app.get("/health", (req, res) => {

@@ -1,6 +1,7 @@
 import express from "express";
-import { changePassword, forgotPassword, getAllUsers, getUserById, login, logout, register, resendEmailVerification, verifyEmail, verifyOTP } from "../controllers/user.js";
+import { changePassword, forgotPassword, getAllUsers, getUserById, login, logout, register, resendEmailVerification, updateUser, verifyEmail, verifyOTP } from "../controllers/user.js";
 import { isAdmin, isAuthenticate } from "../middlewares/auth.js";
+import { singleUpload } from "../middlewares/multer.js";
 const router = express.Router();
 
 router.post("/register",register);
@@ -13,5 +14,6 @@ router.post("/verify-otp/:email",verifyOTP);
 router.post("/change-password/:email",changePassword);
 router.get("/users",isAuthenticate,isAdmin, getAllUsers);
 router.get("/user/:id",getUserById);
+router.put("/user/:id",isAuthenticate,singleUpload, updateUser);
 
 export default router;

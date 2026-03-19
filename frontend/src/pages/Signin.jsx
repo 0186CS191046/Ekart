@@ -41,6 +41,8 @@ const Signin = () => {
             if (response.data.success) {
 
                 navigate("/");
+                console.log("response.data.user",response.data.user);
+                
                 dispatch(setUser(response.data.user))
                 localStorage.setItem("token", response.data.accessToken)
                 toast.success(response.data.message)
