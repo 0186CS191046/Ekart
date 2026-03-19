@@ -65,7 +65,7 @@ const Navbar = () => {
                             Logout
                         </Button>
                     ) : (
-                        <Button onClick={() => navigate("/login")} className="bg-gradient-to-r from-blue-600 to-purple-600 cursor-pointer">
+                        <Button onClick={() => navigate("/login")} className="bg-linear-to-r from-blue-600 to-purple-600 cursor-pointer">
                             Login
                         </Button>
                     )}
