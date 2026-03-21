@@ -6,21 +6,23 @@ import { toast } from "sonner";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { setCart } from "@/redux/productSlice";
+import { useNavigate } from "react-router-dom";
 
 const ProductCard = ({ product, loading }) => {
-    const { productImg, productName, price ,_id} = product
+    const { productImg, productName, price, _id } = product
 
     const dispatch = useDispatch()
     const token = localStorage.getItem("token");
+    const navigate = useNavigate();
 
-    const addToCart = async(productId)=>{
-        try {       
-            const res = await axios.post(`http://localhost:8090/api/v1/cart`,{"productId":productId},{
-                headers:{
+    const addToCart = async (productId) => {
+        try {
+            const res = await axios.post(`http://localhost:8090/api/v1/cart`, { "productId": productId }, {
+                headers: {
                     "Authorization": `Bearer ${token}`
                 }
             })
-            if(res.data.success){
+            if (res.data.success) {
                 toast.success(res.data.message)
                 dispatch(setCart(res.data.cart))
             }
@@ -28,11 +30,12 @@ const ProductCard = ({ product, loading }) => {
             console.log(error);
             toast.error("Failed to add in cart")
         }
-    }
+    };
+     
     return (
         <div className="shadow-lg rounded-lg overflow-hidden h-max">
-            <div className="w-full h-full aspect-square overflow-hidden">
-                {loading ? <Skeleton className="w-full h-full rounded-lg" /> : <img src={productImg[0]?.url} alt="" className="w-full h-full transition-transform duration-300 hover:scale-105 cursor-pointer" />}
+            <div className="w-full h-full aspect-square overflow-hidden" >
+                {loading ? <Skeleton className="w-full h-full rounded-lg" /> : <img onClick={() => navigate(`/products/${_id}`)} src={productImg[0]?.url} alt="" className="w-full h-full transition-transform duration-300 hover:scale-105 cursor-pointer" />}
 
             </div>
             {loading ? <div className="px-2 space-y-2 my-2">
@@ -45,7 +48,7 @@ const ProductCard = ({ product, loading }) => {
                     {productName}
                 </h1>
                 <h2 className="font-bold">₹{price}</h2>
-                <Button className="bg-green-600 mb-3 w-full cursor-pointer" onClick={()=>{addToCart(_id)}}><ShoppingCart />Add to Cart</Button>
+                <Button className="bg-green-600 mb-3 w-full cursor-pointer" onClick={() => { addToCart(_id) }}><ShoppingCart />Add to Cart</Button>
             </div>}
 
         </div>
