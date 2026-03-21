@@ -5,7 +5,7 @@ import getdataUri from "../utils/datauri.js";
 export const addProduct = async (req, res) => {
     try {
         const { productName, productDesc, price, brand, category } = req.body;
-        const userId = req.id
+        const userId = req.user.id
 
         if (!productName || !productDesc || !price || !brand || !category) {
             return res.status(400).json({ success: false, message: "Missing required fields!" })

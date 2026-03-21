@@ -1,11 +1,10 @@
 import { Schema, model } from "mongoose";
 
 const productSchema = new Schema({
-    userId: { type: Schema.Types.ObjectId, ref:"User" },
+    userId: { type: Schema.Types.ObjectId, ref:"User" ,required:true},
     productName: { type: String, required: true },
     productDesc: {
         type: String,
-        unique: true,
         required: true
     },
     price: {

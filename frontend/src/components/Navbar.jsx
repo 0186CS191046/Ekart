@@ -1,7 +1,7 @@
 import { setUser } from "@/redux/userSlice";
 import { Button } from "./ui/button";
 import { ShoppingCart } from "lucide-react";
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
@@ -11,7 +11,8 @@ const Navbar = () => {
     const { user } = useSelector(store => store.user)
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    const token = localStorage.getItem("token")
+    const token = localStorage.getItem("token");
+    const {cart} = useSelector((store=> store.product));
     const logoutHandler = async () => {
         try {
             const resp = await axios.post("http://localhost:8090/api/v1/logout", {}, {
@@ -55,13 +56,13 @@ const Navbar = () => {
                     <Link to="/cart" className="relative">
                         <ShoppingCart size={24} />
                         <span className="absolute -top-2 -right-3 bg-green-600 text-white text-xs px-2 py-0.5 rounded-full">
-                            0
+                            {cart?.items?.length||0}
                         </span>
                     </Link>
 
                     {/* Button */}
                     {user ? (
-                        <Button onClick={logoutHandler} className="bg-green-600 hover:bg-green-700">
+                        <Button onClick={logoutHandler} className="bg-green-600 hover:bg-green-700 cursor-pointer">
                             Logout
                         </Button>
                     ) : (

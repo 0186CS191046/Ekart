@@ -19,7 +19,6 @@ export const isAuthenticate = async (req, res, next) => {
             }
             return res.status(500).json({ success: false, message: "Token verification failed!" })
         }
-        console.log("decode", decode);
         const user = await User.findById(decode.id);
         if(!user){
             return res.status(400).json({ success: false, message: "User not exists!" })
@@ -35,8 +34,7 @@ export const isAuthenticate = async (req, res, next) => {
 export const isAdmin = async (req, res, next) => {
     try {
         const user = req.user
-        console.log("user",user);
-        
+
         if (user.role !== "admin") {
             return res.status(400).json({ success: false, message: "Access Denied : admins only" })
         }

@@ -23,8 +23,6 @@ const Signup = () => {
 
     const handleInput = (e) => {
         const { name, value } = e.target;
-        console.log(name, value);
-
         setFormdata((prev) => ({ ...prev, [name]: value }))
     }
 
@@ -39,8 +37,6 @@ const Signup = () => {
                 navigate("/verify");
                 toast.success(response.data.message)
             }
-            console.log("resp", response);
-
         } catch (error) {
             console.log(error);
         }

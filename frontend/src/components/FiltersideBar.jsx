@@ -6,11 +6,9 @@ import { Button } from "./ui/button";
 const FiltersideBar = ({ allProducts, priceRange, setBrand, setCategory, brand, category, setpricerange, search, setSearch }) => {
     const categories = allProducts.map(prod => prod.category)
     const uniqueCategory = ["All", ...new Set(categories)]
-    console.log("categories", categories);
 
     const brands = allProducts.map(prod => prod.brand);
     const uniqueBrands = ["All", ...new Set(brands)]
-    console.log("brands", uniqueBrands);
 
     const handleCategoryClick = (val) => {
         setCategory(val)
