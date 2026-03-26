@@ -65,11 +65,11 @@ const router = createBrowserRouter([
     children: [
       {
         path: "sales",
-        element: <><AdminSales /></>
+        element: <AdminSales />
       },
       {
         path: "add-product",
-        element: <><AddProduct /></>
+        element: <AddProduct />
       },
        {
         path: "products",
