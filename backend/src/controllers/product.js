@@ -81,7 +81,9 @@ export const updateProduct = async (req, res) => {
                     folder: "products/"
                 })
 
-                updatedImages.push({ uri: result.secure_url, publicId: result.public_id });
+                console.log("++++++++>>>",result);
+                
+                updatedImages.push({ url: result.secure_url, publicId: result.public_id });
             }
         }
 
@@ -93,6 +95,9 @@ export const updateProduct = async (req, res) => {
         product.category = category || product?.category;
         product.productImg = updatedImages;
 
+        console.log("++++",product);
+        
+       await product.save();
         return res.status(200).json({ success: true, message: "Product updated successfully!", product })
     } catch (error) {
         return res.status(500).json({ success: false, message: "Something went wrong!", error: error.message })

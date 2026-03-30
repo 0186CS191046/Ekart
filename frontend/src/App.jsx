@@ -22,6 +22,7 @@ import ShowUserOrders from "./pages/admin/ShowUserOrders";
 import UserInfo from "./pages/admin/UserInfo";
 import ProtectedRoutes from "./components/ProtectedRoutes";
 import SingleProduct from "./pages/SingleProduct";
+import AddressForm from "./pages/AddressForm";
 
 const router = createBrowserRouter([
   {
@@ -52,14 +53,19 @@ const router = createBrowserRouter([
     path: "/products",
     element: <><Navbar /><Products /></>
   },
-    {
+  {
     path: "/products/:id",
     element: <><Navbar /><SingleProduct /></>
   },
   {
     path: "/cart",
     element: <><ProtectedRoutes><Navbar /><Cart /></ProtectedRoutes></>
-  }, {
+  },
+  {
+    path: "/address",
+    element: <><ProtectedRoutes><AddressForm /></ProtectedRoutes></>
+  },
+  {
     path: "/dashboard",
     element: <><ProtectedRoutes adminOnly={true}><Navbar /><Dashboard /></ProtectedRoutes></>,
     children: [
@@ -71,23 +77,23 @@ const router = createBrowserRouter([
         path: "add-product",
         element: <AddProduct />
       },
-       {
+      {
         path: "products",
         element: <><AdminProducts /></>
       },
-       {
+      {
         path: "orders",
         element: <><AdminOrders /></>
       },
-       {
+      {
         path: "users",
         element: <><AdminUsers /></>
       },
-       {
+      {
         path: "users/:id",
         element: <><UserInfo /></>
       },
-       {
+      {
         path: "users/orders/:userId",
         element: <><ShowUserOrders /></>
       }
