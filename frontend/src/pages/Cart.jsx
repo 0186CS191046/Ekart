@@ -88,9 +88,9 @@ const Cart = () => {
                                     cart?.items?.map((product, index) => {
                                         return <Card key={index} >
                                             <div className="flex justify-between items-center pr-7">
-                                                <div className="flex items-center w-[350px]">
+                                                <div className="flex items-center w-87.5">
                                                     <img src={product?.productId?.productImg?.[0]?.url || userLogo} alt="" className="w-25 h-25" />
-                                                    <div className="w-[280px] m-2">
+                                                    <div className="w-70 m-2">
                                                         <h1 className="font-semibold truncate">{product?.productId?.productName}</h1>
                                                         <p>₹{product?.productId?.price}</p>
                                                     </div>
@@ -110,7 +110,7 @@ const Cart = () => {
                                 }
                             </div>
                             <div>
-                                <Card className="w-[400px]">
+                                <Card className="w-100">
                                     <CardHeader>
                                         <CardTitle>
                                             Order Summary

@@ -9,7 +9,9 @@ const config = {
     jwt_secret_key : process.env.JWT_SECRET_KEY,
     cloud_name : process.env.CLOUD_NAME,
     cloud_api_key : process.env.CLOUD_API_KEY,
-    cloud_api_secret : process.env.CLOUD_API_SECRET
+    cloud_api_secret : process.env.CLOUD_API_SECRET,
+    razorpay_api_key : process.env.RAZORPAY_API_KEY,
+    razorpay_api_secret : process.env.RAZORPAY_API_SECRET
 }
 
 export default config;

@@ -94,7 +94,7 @@ const Products = () => {
                     <div className="flex flex-col flex-1">
                         <div className="flex justify-end mb-4">
                             <Select onValueChange={(value)=> setSortOrder(value)}>
-                                <SelectTrigger className="w-[200px]">
+                                <SelectTrigger className="w-50">
                                     <SelectValue placeholder="Sort by Price" />
                                 </SelectTrigger>
                                 <SelectContent>

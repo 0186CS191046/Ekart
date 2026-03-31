@@ -14,7 +14,7 @@ const ProductImg = ({images}) => {
                 }
             </div>
              <Zoom>
-            <img src={img} alt="" className="w-[500px] border shadow-lg"/>
+            <img src={img} alt="" className="w-125 border shadow-lg"/>
             </Zoom>
         </div>
     )

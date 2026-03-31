@@ -85,7 +85,7 @@ const UserInfo = () => {
     console.log("updateUser-------", updateUser, user);
 
     return (
-        <div className="ml-[350px] p-6 mt-16">
+        <div className="ml-87.5 p-6 mt-16">
             <div className="flex items-center gap-3 mb-6">
             <Button className="cursor-pointer" variant="outline"  onClick={() => { navigate(-1) }}><ArrowLeft /></Button>
             <h1 className="font-bold text-2xl text-gray-800">Update Profile</h1>

@@ -7,6 +7,8 @@ import { X } from "lucide-react";
 
 const ImageUpload = ({productData,setProductData})=>{
 
+    console.log("++++++++>>",productData);
+    
      const handleFiles = (e)=>{
         const files = Array.from(e.target.files || [] );
         console.log(">>>>>>>>>>",files);

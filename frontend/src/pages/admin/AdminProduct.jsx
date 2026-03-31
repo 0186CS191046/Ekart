@@ -43,25 +43,25 @@ import {
 const AdminProducts = () => {
     const { products } = useSelector(store => store.product);
     const [editProduct, setEditProduct] = useState(null);
-    const [open,setOpen] = useState(false)
+    const [open, setOpen] = useState(false)
     const dispatch = useDispatch();
-    const [searchTerm,setSearchTerm] = useState("");
-    const [sortOrder,setSortOrder] = useState("")
+    const [searchTerm, setSearchTerm] = useState("");
+    const [sortOrder, setSortOrder] = useState("")
 
-    let filteredProducts = products.filter((prod)=>(
+    let filteredProducts = products.filter((prod) => (
         prod.productName.toLowerCase().includes(searchTerm.toLowerCase()) ||
         prod.brand.toLowerCase().includes(searchTerm.toLowerCase()) ||
         prod.category.toLowerCase().includes(searchTerm.toLowerCase())
     ));
 
-    if(sortOrder==="highToLow"){
-        filteredProducts = [...filteredProducts].sort((a,b)=> b.price-a.price)
-    }else if(sortOrder==="lowToHigh"){
-        filteredProducts = [...filteredProducts].sort((a,b)=> a.price-b.price)
+    if (sortOrder === "highToLow") {
+        filteredProducts = [...filteredProducts].sort((a, b) => b.price - a.price)
+    } else if (sortOrder === "lowToHigh") {
+        filteredProducts = [...filteredProducts].sort((a, b) => a.price - b.price)
     }
 
-    console.log("filteredProducts",filteredProducts,products);
-    
+    console.log("filteredProducts", filteredProducts, products);
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setEditProduct((prev) => ({
@@ -79,11 +79,11 @@ const AdminProducts = () => {
         formData.append("productDesc", editProduct.productDesc);
         formData.append("price", editProduct.price);
         formData.append("brand", editProduct.brand);
-        formData.append("category", editProduct.catgeory);
+        formData.append("category", editProduct.category);
 
         // Add existing images public_ids
         const existingImages = editProduct.productImg.filter((img) => !(img instanceof File) &&
-            img.public_id).map((img) => img.public_id);
+            img.public_id).map((img) => img.public_id) || []
 
         formData.append("existingImages", JSON.stringify(existingImages))
         editProduct.productImg.filter((img) => img instanceof File).forEach((file) => {
@@ -127,17 +127,16 @@ const AdminProducts = () => {
         }
     }
 
-    console.log();
-    
+
     return (
         <div className="ml-75 pt-24 p-6 w-full flex flex-col gap-4 min-h-screen bg-gray-100">
             <div className="flex justify-between">
                 <div className="relative bg-white rounded-lg">
-                    <Input type="text" placeholder="Search..." className="w-100 items-center" 
-                    onChange={(e)=>setSearchTerm(e.target.value)} value={searchTerm}/>
+                    <Input type="text" placeholder="Search..." className="w-100 items-center"
+                        onChange={(e) => setSearchTerm(e.target.value)} value={searchTerm} />
                     <Search className="absolute right-3 top-1.5 text-gray-500" />
                 </div>
-                <Select onValueChange={(value)=>setSortOrder(value)}>
+                <Select onValueChange={(value) => setSortOrder(value)}>
                     <SelectTrigger className="w-50 bg-white">
                         <SelectValue placeholder="Sort by Price" />
                     </SelectTrigger>
@@ -163,7 +162,7 @@ const AdminProducts = () => {
                             <Dialog open={open} setOpen={setOpen}>
                                 <form>
                                     <DialogTrigger asChild>
-                                        <Edit onClick={() => {setOpen(true) ,setEditProduct(product)}} className="text-green-500 cursor-pointer" />
+                                        <Edit onClick={() => { setOpen(true), setEditProduct(product) }} className="text-green-500 cursor-pointer" />
                                     </DialogTrigger>
                                     <DialogContent className="sm:max-w-156.25 max-h-150 overflow-y-scroll">
                                         <DialogHeader>
@@ -204,9 +203,9 @@ const AdminProducts = () => {
 
                                         <DialogFooter>
                                             <DialogClose asChild>
-                                                <Button variant="outline" onClick={()=>setOpen(false)}>Cancel</Button>
+                                                <Button variant="outline" onClick={() => setOpen(false)}>Cancel</Button>
                                             </DialogClose>
-                                            <Button type="submit" onClick={handleSave} className="cursor-pointer">Save changes</Button>
+                                            <Button type="submit" onClick={handleSave} className="cursor-pointer bg-green-600">Save changes</Button>
                                         </DialogFooter>
                                     </DialogContent>
                                 </form>
@@ -226,7 +225,7 @@ const AdminProducts = () => {
                                     <AlertDialogFooter>
                                         <AlertDialogCancel className="cursor-pointer">Cancel</AlertDialogCancel>
                                         <AlertDialogAction variant="outline" className="bg-green-500 hover:bg-green-600 cursor-pointer"
-                                        onClick={() => removeProduct(product._id)} >Continue</AlertDialogAction>
+                                            onClick={() => removeProduct(product._id)} >Continue</AlertDialogAction>
                                     </AlertDialogFooter>
                                 </AlertDialogContent>
                             </AlertDialog>
