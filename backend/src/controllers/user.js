@@ -52,11 +52,9 @@ export const verifyEmail = async (req, res) => {
             return res.status(400).json({ success: false, message: "Token verification failed!" })
 
         }
-        console.log(decode);
 
         const user = await User.findById(decode.id);
-        console.log(user);
-
+        
         if (!user) {
             return res.status(400).json({ success: false, message: "User not exists!" })
         }
@@ -78,7 +76,6 @@ export const resendEmailVerification = async (req, res) => {
         };
 
         const user = await User.findOne({ email });
-        console.log(user);
 
         if (!user) {
             return res.status(400).json({ success: false, message: "User not exists!" })
@@ -104,7 +101,6 @@ export const login = async (req, res) => {
         };
 
         const user = await User.findOne({ email });
-        console.log(user);
 
         if (!user) {
             return res.status(400).json({ success: false, message: "User not exists!" })
@@ -137,13 +133,11 @@ export const login = async (req, res) => {
 export const logout = async (req, res) => {
     try {
         const { id } = req.user;
-        console.log("id", id);
 
         const checkuser = await User.findById(id);
         if (!checkuser) {
             return res.status(400).json({ success: false, message: "User not exists!" })
         };
-        console.log(checkuser);
 
         await Session.deleteMany({ userId: checkuser._id })
         checkuser.isLoggedIn = false
@@ -165,8 +159,6 @@ export const forgotPassword = async (req, res) => {
         };
 
         const user = await User.findOne({ email });
-        console.log(user);
-
         if (!user) {
             return res.status(400).json({ success: false, message: "User not exists!" })
         }
@@ -196,7 +188,6 @@ export const verifyOTP = async (req, res) => {
         };
 
         const user = await User.findOne({ email });
-        console.log(user);
 
         if (!user) {
             return res.status(400).json({ success: false, message: "User not exists!" })
@@ -231,7 +222,6 @@ export const changePassword = async (req, res) => {
         };
 
         const user = await User.findOne({ email });
-        console.log(user);
 
         if (!user) {
             return res.status(400).json({ success: false, message: "User not exists!" })

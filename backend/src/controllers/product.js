@@ -5,7 +5,7 @@ import getdataUri from "../utils/datauri.js";
 export const addProduct = async (req, res) => {
     try {
         const { productName, productDesc, price, brand, category } = req.body;
-        const userId = req.id
+        const userId = req.user.id
 
         if (!productName || !productDesc || !price || !brand || !category) {
             return res.status(400).json({ success: false, message: "Missing required fields!" })
@@ -81,7 +81,9 @@ export const updateProduct = async (req, res) => {
                     folder: "products/"
                 })
 
-                updatedImages.push({ uri: result.secure_url, publicId: result.public_id });
+                console.log("++++++++>>>",result);
+                
+                updatedImages.push({ url: result.secure_url, publicId: result.public_id });
             }
         }
 
@@ -93,6 +95,9 @@ export const updateProduct = async (req, res) => {
         product.category = category || product?.category;
         product.productImg = updatedImages;
 
+        console.log("++++",product);
+        
+       await product.save();
         return res.status(200).json({ success: true, message: "Product updated successfully!", product })
     } catch (error) {
         return res.status(500).json({ success: false, message: "Something went wrong!", error: error.message })

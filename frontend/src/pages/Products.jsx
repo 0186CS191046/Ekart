@@ -1,4 +1,4 @@
-import ProductCard from "@/components/ProductCard";
+import ProductCard from "../components/ProductCard";
 import React, { useEffect, useState } from "react";
 import {
     Select,
@@ -7,12 +7,12 @@ import {
     SelectItem,
     SelectTrigger,
     SelectValue,
-} from "@/components/ui/select";
+} from "../components/ui/select";
 import FiltersideBar from "../components/FiltersideBar"
 import axios from "axios";
 import { toast } from "sonner";
 import { useDispatch, useSelector } from "react-redux";
-import { setProducts } from "@/redux/productSlice";
+import { setProducts } from "../redux/productSlice";
 import { Search } from "lucide-react";
 
 const Products = () => {
@@ -30,7 +30,6 @@ const Products = () => {
             setLoading(true)
             const res = await axios.get("http://localhost:8090/api/v1/product")
             if (res.data.success) {
-                console.log("---", res.data.products);
                 setAllProducts(res.data.products)
                 dispatch(setProducts(res.data.products))
             }
@@ -49,7 +48,6 @@ const Products = () => {
         }
 
         let filtered = [...allProducts];
-        console.log("app", allProducts);
 
         if (search.trim() !== "") {
             filtered = filtered.filter((p) => p?.productName?.toLowerCase().includes(search.toLowerCase()))
@@ -96,7 +94,7 @@ const Products = () => {
                     <div className="flex flex-col flex-1">
                         <div className="flex justify-end mb-4">
                             <Select onValueChange={(value)=> setSortOrder(value)}>
-                                <SelectTrigger className="w-[200px]">
+                                <SelectTrigger className="w-50">
                                     <SelectValue placeholder="Sort by Price" />
                                 </SelectTrigger>
                                 <SelectContent>

@@ -7,15 +7,15 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
+import { Label } from "../components/ui/label";
+import { Input } from "../components/ui/input";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Button } from "../components/ui/button";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "sonner";
 import { useDispatch } from "react-redux";
-import { setUser } from "@/redux/userSlice";
+import { setUser } from "../redux/userSlice";
 
 const Signin = () => {
     const [showPassword, setShowPassword] = useState(false);
@@ -26,8 +26,6 @@ const Signin = () => {
 
     const handleInput = (e) => {
         const { name, value } = e.target;
-        console.log(name, value);
-
         setFormdata((prev) => ({ ...prev, [name]: value }))
     }
 
@@ -39,15 +37,11 @@ const Signin = () => {
                 headers: { "Content-Type": "application/json" }
             })
             if (response.data.success) {
-
                 navigate("/");
-                console.log("response.data.user",response.data.user);
-                
                 dispatch(setUser(response.data.user))
                 localStorage.setItem("token", response.data.accessToken)
                 toast.success(response.data.message)
             }
-            console.log("resp", response);
 
         } catch (error) {
             console.log(error);

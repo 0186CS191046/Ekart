@@ -1,17 +1,17 @@
 import React, { useState } from "react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Label } from "@/components/ui/label";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../components/ui/tabs"
+import { Label } from "../components/ui/label";
 import { Button, Input } from "@base-ui/react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import userImg from "../assets/default.jpg"
 import { toast } from "sonner";
 import axios from "axios";
-import { setUser } from "@/redux/userSlice";
+import { setUser } from "../redux/userSlice";
+import MyOrder from "./MyOrder";
 
 const Profile = () => {
     const {user} = useSelector(store => store.user);
-    console.log("user---",user);
     
     const params = useParams();
     const userId = params.id;
@@ -151,6 +151,9 @@ const Profile = () => {
                         </div>
                     </div>
 
+                </TabsContent>
+                <TabsContent value="orders">
+                    <MyOrder/>
                 </TabsContent>
             </Tabs>
 

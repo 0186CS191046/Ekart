@@ -22,7 +22,6 @@ export const emailVerify = (token, email) => {
     transporter.sendMail(mailConfig, function (err, info) {
         if (err) throw Error(err);
         console.log("Email sent successfully!");
-        console.log(info);
     })
 }
 
@@ -38,7 +37,6 @@ export const sendOTPEmail = async(email,otp)=>{
     transporter.sendMail(mailConfig, function (err, info) {
         if (err) throw Error(err);
         console.log("Email sent successfully!");
-        console.log(info);
     })
     } catch (error) {
         return res.status(500).json({success : false, message:""})
