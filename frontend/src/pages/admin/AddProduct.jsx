@@ -64,7 +64,7 @@ const AddProduct = () => {
     };
 
     return (
-        <div className="flex-1 ml-75 flex justify-center items-start pt-5 px-6">
+        <div className="flex-1 flex justify-center items-start pt-5 px-6">
             <Card className="w-full my-20">
                 <CardHeader>
                     <CardTitle>Add Product</CardTitle>

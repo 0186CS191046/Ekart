@@ -43,7 +43,7 @@ const AdminUsers = () => {
     }, []);
 
     return (
-        <div className="pl-87.5 py-20 pr-20 mx-auto px-4">
+        <div className="py-20 mx-auto px-4">
             <h1 className="font-bold text-2xl">User management</h1>
             <p>View and manage registered users</p>
             <div className="flex relative w-75 mt-6">
@@ -63,7 +63,7 @@ const AdminUsers = () => {
                          </div>
                           <div className="flex gap-3 mt-3">
                             <Button className="cursor-pointer" onClick={()=>navigate(`/dashboard/users/${user?._id}`)} variant="outline"><Edit/>Edit</Button>
-                            <Button className="cursor-pointer"><Eye/>Show Order</Button>
+                            <Button className="cursor-pointer" onClick={()=>navigate(`/dashboard/users/orders/${user?._id}`)}><Eye/>Show Order</Button>
 
                         </div>
                     </div>

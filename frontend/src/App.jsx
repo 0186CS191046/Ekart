@@ -23,6 +23,7 @@ import UserInfo from "./pages/admin/UserInfo";
 import ProtectedRoutes from "./components/ProtectedRoutes";
 import SingleProduct from "./pages/SingleProduct";
 import AddressForm from "./pages/AddressForm";
+import OrderSucces from "./pages/OrderSuccess";
 
 const router = createBrowserRouter([
   {
@@ -60,6 +61,10 @@ const router = createBrowserRouter([
   {
     path: "/cart",
     element: <><ProtectedRoutes><Navbar /><Cart /></ProtectedRoutes></>
+  },
+  {
+    path: "/order-success",
+    element: <><ProtectedRoutes><OrderSucces /></ProtectedRoutes></>
   },
   {
     path: "/address",

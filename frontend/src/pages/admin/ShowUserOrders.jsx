@@ -1,8 +1,40 @@
-import React  from "react";
+import OrderCard from "@/components/Ordercard";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { toast } from "sonner";
 
 const ShowUserOrders = () => {
-    return(
-        <h1>ShowUserOrders</h1>
+    const [userOrder, setUserOrder] = useState([]);
+    const { userId } = useParams();
+
+    const getUserOrders = async () => {
+        const token = localStorage.getItem("token")
+        try {
+            const resp = await axios.get(`${import.meta.env.VITE_URL}/api/v1/orders/user-order/${userId}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+            if (resp.data.success) {
+                setUserOrder(resp.data.orders)
+                toast.success(resp.data.message)
+            }
+
+        } catch (error) {
+            toast.error("Error getching order details...")
+            console.log("Error getching order details...", error.message);
+        }
+    };
+
+    useEffect(() => {
+        getUserOrders()
+    }, [])
+    return (
+        <div className="py-20 w-full">
+            <OrderCard userOrder={userOrder} />
+        </div>
+
     )
 };
 

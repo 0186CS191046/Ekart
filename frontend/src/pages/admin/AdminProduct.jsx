@@ -127,9 +127,8 @@ const AdminProducts = () => {
         }
     }
 
-
     return (
-        <div className="ml-75 pt-24 p-6 w-full flex flex-col gap-4 min-h-screen bg-gray-100">
+        <div className="pt-5 px-6 w-full flex flex-col gap-4  bg-gray-100">
             <div className="flex justify-between">
                 <div className="relative bg-white rounded-lg">
                     <Input type="text" placeholder="Search..." className="w-100 items-center"
