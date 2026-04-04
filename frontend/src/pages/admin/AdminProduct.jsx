@@ -39,6 +39,7 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
+import Spinner from "@/components/spinner";
 
 const AdminProducts = () => {
     const { products } = useSelector(store => store.product);
@@ -46,7 +47,8 @@ const AdminProducts = () => {
     const [open, setOpen] = useState(false)
     const dispatch = useDispatch();
     const [searchTerm, setSearchTerm] = useState("");
-    const [sortOrder, setSortOrder] = useState("")
+    const [sortOrder, setSortOrder] = useState("");
+    const [loading, setLoading] = useState(false)
 
     let filteredProducts = products.filter((prod) => (
         prod.productName.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -71,6 +73,7 @@ const AdminProducts = () => {
 
     const handleSave = async (e) => {
         e.preventDefault();
+        setLoading(true);
 
         const formData = new FormData();
         formData.append("productName", editProduct.productName);
@@ -80,8 +83,12 @@ const AdminProducts = () => {
         formData.append("category", editProduct.category);
 
         // Add existing images public_ids
-        const existingImages = editProduct.productImg.filter((img) => !(img instanceof File) &&
-            img.public_id).map((img) => img.public_id) || []
+        // const existingImages = editProduct.productImg.filter((img) => !(img instanceof File) &&
+        //     img.public_id).map((img) => img.public_id) || []
+        const existingImages = editProduct.productImg
+            .filter((img) => !(img instanceof File))
+            .map((img) => img.publicId) // ✅ ALWAYS publicId
+            .filter(Boolean);
 
         formData.append("existingImages", JSON.stringify(existingImages))
         editProduct.productImg.filter((img) => img instanceof File).forEach((file) => {
@@ -103,11 +110,15 @@ const AdminProducts = () => {
                 setOpen(false)
             }
         } catch (error) {
-            console.log(error);
+            console.log("Error in updating product :", error.message);
+            toast.error(error.message);
+        }finally{
+            setLoading(false)
         }
     };
 
     const removeProduct = async (productId) => {
+        setLoading(true);
         try {
             const remainingProducts = products.filter((prod) => prod._id !== productId)
             const res = await axios.delete(`http://localhost:8090/api/v1/product/${productId}`, {
@@ -120,11 +131,17 @@ const AdminProducts = () => {
                 dispatch(setProducts(remainingProducts))
             }
         } catch (error) {
-            console.log(error);
-
+            console.log("Error in removeProduct :", error.message);
+            toast.error(error.message);
+        }finally{
+            setLoading(false);
         }
     }
 
+    if(loading){
+        return (<Spinner/>)
+    }
+    else{
     return (
         <div className="pt-5 px-6 w-full flex flex-col gap-4  bg-gray-100">
             <div className="flex justify-between">
@@ -233,6 +250,7 @@ const AdminProducts = () => {
             })}
         </div>
     )
+}
 };
 
 export default AdminProducts;

@@ -60,13 +60,13 @@ export const updateProduct = async (req, res) => {
         // keep selected images
         if (existingImages) {
             const keepIds = JSON.parse(existingImages);
-            updatedImages = product.productImg.filter((img) => {
-                keepIds.includes(img.publicId);
-            });
+            updatedImages = product.productImg.filter((img) => 
+                keepIds.includes(img.publicId)
+            );
             //delete only removed images
-            const removedImages = product.productImg.filter((img) => {
-                !keepIds.includes(img.publicId);
-            })
+            const removedImages = product.productImg.filter((img) => 
+                !keepIds.includes(img.publicId)
+            )
             for (let img of removedImages) {
                 await cloudinary.uploader.destroy(img.publicId)
             }

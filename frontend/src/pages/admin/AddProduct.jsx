@@ -54,8 +54,8 @@ const AddProduct = () => {
                 toast.success(res.data.message)
             }
         } catch (error) {
-            console.log(error);
-            toast.success("Failed to add Product!")
+            console.log("Error in submit handler :",error.message);
+            toast.error("Failed to add Product!")
         } finally {
             setLoading(false)
         }
