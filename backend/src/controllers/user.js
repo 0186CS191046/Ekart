@@ -28,7 +28,7 @@ export const register = async (req, res) => {
 
         return res.status(210).json({ success: true, message: "User registered successfully!", user: newUser })
     } catch (error) {
-        console.log(error);
+       console.log("Error registering user", error.message);
         return res.status(500).json({ message: "Something went wrong!" })
     }
 }
@@ -54,7 +54,7 @@ export const verifyEmail = async (req, res) => {
         }
 
         const user = await User.findById(decode.id);
-        
+
         if (!user) {
             return res.status(400).json({ success: false, message: "User not exists!" })
         }
@@ -63,7 +63,7 @@ export const verifyEmail = async (req, res) => {
         await user.save();
         return res.status(200).json({ success: true, message: "Email verified successfully!" })
     } catch (error) {
-        console.log(error);
+       console.log("Error verifying email :", error.message);
         return res.status(500).json({ success: false, message: "Something went wrong!" })
     }
 };
@@ -88,7 +88,7 @@ export const resendEmailVerification = async (req, res) => {
         await user.save();
         return res.status(200).json({ success: true, message: "Email resent successfully!" })
     } catch (error) {
-        console.log(error);
+        console.log("Error in resendEmailVerification :", error.message);
         return res.status(500).json({ success: false, message: "Something went wrong!" })
     }
 }
@@ -113,8 +113,8 @@ export const login = async (req, res) => {
         if (!user.isEmailVerified) {
             return res.status(400).json({ success: false, message: "Please verify your email!" })
         }
-        const accessToken = jwt.sign({ id: user._id }, config.jwt_secret_key, { expiresIn: "11h" });
-        const refreshToken = jwt.sign({ id: user._id }, config.jwt_secret_key, { expiresIn: "30d" });
+        const accessToken = jwt.sign({ id: user._id }, config.jwt_secret_key, { expiresIn: "15m" });
+        const refreshToken = jwt.sign({ id: user._id }, config.refresh_secret_key, { expiresIn: "7d" });
         const checkSession = await Session.findById(user._id);
         if (checkSession) {
             await Session.deleteMany({ userId: user._id })
@@ -123,9 +123,10 @@ export const login = async (req, res) => {
 
         user.isLoggedIn = true;
         await user.save();
+        res.cookie('refreshToken', refreshToken, { httpOnly: true, secure: false, sameSite: "Lax" });
         return res.status(200).json({ success: true, message: "Login successfully!", accessToken, refreshToken, user })
     } catch (error) {
-        console.log(error);
+        console.log("Error logging user :", error.message);
         return res.status(500).json({ success: false, message: "Something went wrong!" })
     }
 }
@@ -145,7 +146,7 @@ export const logout = async (req, res) => {
 
         return res.status(200).json({ success: true, message: "Logout successfully!" })
     } catch (error) {
-        console.log(error);
+        console.log("Error in logout user :", error.message);
         return res.status(500).json({ success: false, message: "Something went wrong!" })
     }
 };
@@ -174,7 +175,7 @@ export const forgotPassword = async (req, res) => {
         await sendOTPEmail(email, otp)
         return res.status(200).json({ success: true, message: "OTP sent successfully!" })
     } catch (error) {
-        console.log(error);
+        console.log("Error in forgotPassword :", error.message);
         return res.status(500).json({ success: false, message: "Something went wrong!" })
     }
 }
@@ -207,7 +208,7 @@ export const verifyOTP = async (req, res) => {
 
         return res.status(200).json({ success: true, message: "OTP verified successfully!" })
     } catch (error) {
-        console.log(error);
+        console.log("Error in verifying OTP :", error.message);
         return res.status(500).json({ success: false, message: "Something went wrong!" })
     }
 };
@@ -235,7 +236,7 @@ export const changePassword = async (req, res) => {
         await user.save();
         return res.status(200).json({ success: true, message: "Password changed successfully!" })
     } catch (error) {
-        console.log(error);
+       console.log("Error in changing password :", error.message);
         return res.status(500).json({ success: false, message: "Something went wrong!" })
     }
 }
@@ -245,7 +246,7 @@ export const getAllUsers = async (req, res) => {
         const allusers = await User.find();
         return res.status(200).json({ success: true, message: "Users fetched successfully!", users: allusers })
     } catch (error) {
-        console.log(error);
+        console.log("Error getting all users :", error.message);
         return res.status(500).json({ success: false, message: "Something went wrong!" })
     }
 }
@@ -259,7 +260,7 @@ export const getUserById = async (req, res) => {
         }
         return res.status(200).json({ success: true, message: "Users fetched successfully!", users: user })
     } catch (error) {
-        console.log(error);
+        console.log("Error getting userById :", error.message);
         return res.status(500).json({ success: false, message: "Something went wrong!" })
     }
 };
@@ -317,7 +318,33 @@ export const updateUser = async (req, res) => {
         const updatedUser = await user.save()
         return res.status(200).json({ success: true, message: "Users updated successfully!", user: updatedUser })
     } catch (error) {
-        console.log(error);
+        console.log("Error updating user :", error.message);
+        return res.status(500).json({ success: false, message: "Something went wrong!" })
+    }
+};
+
+export const getAccessToken = async (req, res) => {
+    try {
+        const userId = req.user._id;
+        const findUser = await User.findOne({ _id: userId })
+        if (!findUser) {
+            return res.status(403).json({ success: false, message: "User not exists!" })
+        };
+
+        const accessToken = jwt.sign({ id: findUser._id }, config.jwt_secret_key, { expiresIn: "15m" });
+        const refreshToken = jwt.sign({ id: findUser._id }, config.refresh_secret_key, { expiresIn: "7d" });
+        const checkSession = await Session.findById(findUser._id);
+        if (checkSession) {
+            await Session.deleteMany({ userId: findUser._id })
+        }
+        await Session.create({ userId: findUser._id })
+
+        findUser.isLoggedIn = true;
+        await findUser.save();
+        res.cookie('refreshToken', refreshToken, { httpOnly: true ,sameSite:"Lax", secure:false});
+        return res.status(200).json({ success: true, accessToken: accessToken, refreshToken: refreshToken })
+    } catch (error) {
+        console.log("Error getting accessToken :", error.message);
         return res.status(500).json({ success: false, message: "Something went wrong!" })
     }
 }

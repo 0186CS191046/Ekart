@@ -26,9 +26,7 @@ const AddProduct = () => {
     const dispatch = useDispatch();
     const { products } = useSelector(store => store.product);
 
-    const submitHandler = async (e) => {
-        console.log("++++++++++++");
-        
+    const submitHandler = async (e) => {       
         e.preventDefault();
         const formdata = new FormData();
         formdata.append("productName", productData.productName);

@@ -38,9 +38,9 @@ export default function Footer() {
         <div>
           <h3 className="text-white font-semibold mb-4">Follow Us</h3>
           <div className="flex space-x-4">
-            <Facebook className="cursor-pointer hover:text-green-500" />
-            <Instagram className="cursor-pointer hover:text-green-500" />
-            <Twitter className="cursor-pointer hover:text-green-500" />
+            <Facebook className="cursor-pointer hover:text-green-500" onClick={()=> window.location.href = 'https://www.facebook.com/profile.php?id=100038217872399' } />
+            <Instagram className="cursor-pointer hover:text-green-500" onClick={()=> window.location.href = 'http://instagram.com/kajalkumari595/' } />
+            <Twitter className="cursor-pointer hover:text-green-500" onClick={()=> window.location.href = 'https://x.com/' }/>
           </div>
         </div>
 
@@ -54,7 +54,7 @@ export default function Footer() {
 
           <div className="flex gap-2">
             <Input placeholder="Your email address" />
-            <Button className="bg-green-500 hover:bg-green-600">
+            <Button className="bg-green-500 hover:bg-green-600 cursor-pointer">
               Subscribe
             </Button>
           </div>

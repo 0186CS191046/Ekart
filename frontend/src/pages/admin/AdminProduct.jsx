@@ -60,8 +60,6 @@ const AdminProducts = () => {
         filteredProducts = [...filteredProducts].sort((a, b) => a.price - b.price)
     }
 
-    console.log("filteredProducts", filteredProducts, products);
-
     const handleChange = (e) => {
         const { name, value } = e.target;
         setEditProduct((prev) => ({

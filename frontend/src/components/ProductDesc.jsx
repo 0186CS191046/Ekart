@@ -22,8 +22,8 @@ const ProductDesc = ({ product }) => {
                 dispatch(setCart(res.data.cart))
             }
         } catch (error) {
-            console.log(error);
-            toast.error("Failed to add in cart")
+            console.log("Error in addTocart :",error.message);
+            toast.error(error.message)
         }
     }
 

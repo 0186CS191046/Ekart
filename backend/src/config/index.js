@@ -7,6 +7,7 @@ const config = {
     mail_user : process.env.MAIL_USER ,
     mail_pass : process.env.MAIL_PASS,
     jwt_secret_key : process.env.JWT_SECRET_KEY,
+    refresh_secret_key : process.env.REFRESH_SECRET_KEY,
     cloud_name : process.env.CLOUD_NAME,
     cloud_api_key : process.env.CLOUD_API_KEY,
     cloud_api_secret : process.env.CLOUD_API_SECRET,

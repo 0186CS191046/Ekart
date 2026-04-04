@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "sonner";
+import Spinner from "@/components/spinner";
 
 const Signup = () => {
     const [showPassword, setShowPassword] = useState(false);
@@ -45,6 +46,9 @@ const Signup = () => {
         }
     }
 
+     if (loading) {
+        return (<Spinner />)
+    } else{
     return (
         <div className="flex justify-center items-center min-h-screen bg-green-100">
             <Card className="w-full max-w-sm">
@@ -99,6 +103,7 @@ const Signup = () => {
             </Card>
         </div>
     )
+}
 }
 
 export default Signup;

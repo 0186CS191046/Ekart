@@ -1,4 +1,4 @@
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Loader } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Label } from "@/components/ui/label";
@@ -10,11 +10,13 @@ import axios from "axios";
 import { toast } from "sonner";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { setUser } from "@/redux/userSlice";
+import Spinner from "@/components/spinner";
 
 const UserInfo = () => {
     // const    
     const [updateUser, setUpdateUser] = useState(null);
     const [file, setFile] = useState(null);
+    const [loading,setLoading] = useState(true);
     const { user } = useSelector(store => store.user);
     const params = useParams();
     const userId = params.id;
@@ -57,7 +59,7 @@ const UserInfo = () => {
                 dispatch(setUser(resp.data.user))
             }
         } catch (error) {
-            console.log(error);
+            console.log("Failed to update profile...",error.message);
             toast.error("Failed to update profile...")
 
         }
@@ -66,24 +68,27 @@ const UserInfo = () => {
     const dispatch = useDispatch();
     const getUserDetails = async () => {
         try {
-            console.log(userId);
-
             const res = await axios.get(`http://localhost:8090/api/v1/user/${userId}`);
-            console.log("___________", res.data.users);
 
             if (res.data.success) {
                 setUpdateUser(res.data.users)
             }
         } catch (error) {
-            console.log(error);
+            console.log("Error in getUserDetails...",error);
+
+        }
+        finally{
+            setLoading(false)
         }
     }
     useEffect(() => {
         getUserDetails();
     }, [])
 
-    console.log("updateUser-------", updateUser, user);
 
+    if(loading){
+        return( <Spinner/>)
+    }else{
     return (
         <div className="ml-87.5 p-6 mt-16">
             <div className="flex items-center gap-3 mb-6">
@@ -174,6 +179,7 @@ const UserInfo = () => {
             </div>
         </div>
     )
+}
 };
 
 export default UserInfo;
