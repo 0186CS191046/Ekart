@@ -46,7 +46,8 @@ const Signin = () => {
             }
 
         } catch (error) {
-            console.log(error);
+            console.log("Error in SignIn :",error.message);
+            toast.error(error.message);
         }
         finally {
             setLoading(false)

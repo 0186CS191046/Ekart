@@ -21,7 +21,7 @@ const VerifyEmail = ()=>{
                 },2000)
             }
         } catch (error) {
-            console.log(error);
+             console.log("Error in verify email : :",error.message);
             setStatus("❌ Verifcation failed. Please try again")
             
         }
