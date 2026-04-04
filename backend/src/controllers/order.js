@@ -15,16 +15,12 @@ export const createOrder = async (req, res) => {
             currency: currency || "INR",
             receipt: `receipt_${Date.now()}`
         };
-        console.log("j ugdy ghs g6hfeg y");
 
         const finalAmount = Math.round(Number(amount) * 100);
 
-        console.log("FRONTEND AMOUNT (₹):", amount);
-        console.log("FINAL RAZORPAY AMOUNT (paise):", finalAmount);
         const razorpayOrder = await razorpayInstance.orders.create(options);
-        // save order in DB
-        console.log("razorpayOrderrazorpayOrder", razorpayOrder);
 
+        // save order in DB
         const neworder = await Order.create({
             userId: req.user._id,
             products, amount, tax, shipping, currency, status: "Pending",
@@ -32,8 +28,7 @@ export const createOrder = async (req, res) => {
         });
         return res.status(201).json({ success: true, message: "Order created successfully!", razorpayOrder, DBOrder: neworder })
     } catch (error) {
-        console.log(error);
-
+        console.log("Error creating order", error.message);
         return res.status(500).json({ success: false, message: "Something went wrong!", error: error.message })
     }
 };
@@ -44,8 +39,6 @@ export const verifyPayment = async (req, res) => {
         const userId = req.user._id;
 
         if (paymentFailed) {
-            console.log("++++++++", razorpay_order_id);
-
             const order = await Order.findOneAndUpdate({ razorpayOrderId: razorpay_order_id }, { status: "Failed" }, { new: true })
             return res.status(400).json({ success: false, message: "Payment Failed!", order })
         }
@@ -69,7 +62,7 @@ export const verifyPayment = async (req, res) => {
         }
 
     } catch (error) {
-        console.log(error);
+        console.log("Error verifying Payment :", error.message);
         return res.status(500).json({ success: false, message: "Something went wrong!", error: error.message })
     }
 };
@@ -82,7 +75,7 @@ export const getMyOrders = async (req, res) => {
 
         return res.status(200).json({ success: true, message: "Orders fetched successfully!", orders })
     } catch (error) {
-        console.log("Error fetching user ordders...", error);
+        console.log("Error fetching user orders...", error);
         return res.status(500).json({ success: false, message: "Something went wrong!", error: error.message })
     }
 };
@@ -100,7 +93,7 @@ export const getUserOrders = async (req, res) => {
             orders
         })
     } catch (error) {
-        console.log("Error fetching user ordders...", error);
+        console.log("Error fetching user orders...", error);
         return res.status(500).json({ success: false, message: "Something went wrong!", error: error.message })
 
     }
@@ -119,7 +112,7 @@ export const getAllOrdersAdmin = async (req, res) => {
         });
 
     } catch (error) {
-        console.log("Error fetching user ordders...", error);
+        console.log("Error fetching user orders...", error);
         return res.status(500).json({ success: false, message: "Something went wrong!", error: error.message })
     }
 };
@@ -145,21 +138,20 @@ export const getSalesData = async (req, res) => {
 
         const salesByData = await Order.aggregate([
             { $match: { status: "Paid", createdAt: { $gte: lastTotalThirtyDays } } },
-            { $group: { _id: 
-                { $dateToString: { format: "%Y-%m-%d", date: "$createdAt" } },
-                amount: { $sum: "$amount" }
-             }},
+            {
+                $group: {
+                    _id:
+                        { $dateToString: { format: "%Y-%m-%d", date: "$createdAt" } },
+                    amount: { $sum: "$amount" }
+                }
+            },
             { $sort: { _id: -1 } }
         ]);
-
-        console.log("salesByData", salesByData);
 
         const formattedSales = salesByData.map((item) => ({
             date: item._id,
             amount: item.amount
         }))
-
-        console.log("formattedSales", formattedSales);
 
         return res.status(200).json({
             success: true, message: "Orders fetched successfully!",
@@ -170,7 +162,7 @@ export const getSalesData = async (req, res) => {
             sales: formattedSales
         });
     } catch (error) {
-        console.log("Error fetching user ordders...", error);
+        console.log("Error fetching user orders...", error);
         return res.status(500).json({ success: false, message: "Something went wrong!", error: error.message })
     }
 }

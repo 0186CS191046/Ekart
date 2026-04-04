@@ -16,6 +16,7 @@ import axios from "axios";
 import { toast } from "sonner";
 import { useDispatch } from "react-redux";
 import { setUser } from "../redux/userSlice";
+import Spinner from "@/components/spinner";
 
 const Signin = () => {
     const [showPassword, setShowPassword] = useState(false);
@@ -34,7 +35,8 @@ const Signin = () => {
         try {
             setLoading(true)
             const response = await axios.post("http://localhost:8090/api/v1/login", formdata, {
-                headers: { "Content-Type": "application/json" }
+                headers: { "Content-Type": "application/json" },
+                withCredentials:true
             })
             if (response.data.success) {
                 navigate("/");
@@ -51,12 +53,15 @@ const Signin = () => {
         }
     }
 
+     if (loading) {
+        return (<Spinner />)
+    } else{
     return (
         <div className="flex justify-center items-center min-h-screen bg-green-100">
             <Card className="w-full max-w-sm">
                 <CardHeader>
                     <CardTitle>Login your account</CardTitle>
-                    <CardDescription>Enter given details below to create your account</CardDescription>
+                    <CardDescription>Enter given details below to login your account and please enter real emailId</CardDescription>
                 </CardHeader>
                 <CardContent>
                     <div className="flex flex-col gap-3">
@@ -88,6 +93,7 @@ const Signin = () => {
             </Card>
         </div>
     )
+}
 }
 
 export default Signin;

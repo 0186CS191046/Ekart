@@ -79,10 +79,7 @@ export const updateProduct = async (req, res) => {
                 const fileUri = getdataUri(file);
                 const result = await cloudinary.uploader.upload(fileUri, {
                     folder: "products/"
-                })
-
-                console.log("++++++++>>>",result);
-                
+                })         
                 updatedImages.push({ url: result.secure_url, publicId: result.public_id });
             }
         }
@@ -94,8 +91,6 @@ export const updateProduct = async (req, res) => {
         product.brand = brand || product?.brand;
         product.category = category || product?.category;
         product.productImg = updatedImages;
-
-        console.log("++++",product);
         
        await product.save();
         return res.status(200).json({ success: true, message: "Product updated successfully!", product })

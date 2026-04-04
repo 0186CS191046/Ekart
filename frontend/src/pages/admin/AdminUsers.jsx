@@ -7,10 +7,12 @@ import { Input } from "@/components/ui/input";
 import userLogo from "../../assets/default.jpg"
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
+import Spinner from "@/components/spinner";
 
 const AdminUsers = () => {
     const [allUsers, setAllUsers] = useState([]);
     const [searchTerm,setSearchTerm] = useState("");
+    const [loading,setLoading] = useState(true);
     const navigate = useNavigate();
 
     const token = localStorage.getItem("token")
@@ -21,15 +23,16 @@ const AdminUsers = () => {
                     Authorization: `Bearer ${token}`
                 }
             })
-            console.log("res.data.", res.data);
-
             if (res.data.success) {
                 setAllUsers(res.data.users)
-                toast(res.data.message)
+                toast.success(res.data.message)
             }
         } catch (error) {
             console.log(error);
-
+            toast.error(error.message)
+        }
+        finally{
+            setLoading(false)
         }
     }
 
@@ -42,6 +45,9 @@ const AdminUsers = () => {
         fetchUsers()
     }, []);
 
+    if(loading){
+        return(<Spinner/>)
+    }else{
     return (
         <div className="py-20 mx-auto px-4">
             <h1 className="font-bold text-2xl">User management</h1>
@@ -72,6 +78,7 @@ const AdminUsers = () => {
             </div>
         </div>
     )
+}
 };
 
 export default AdminUsers;

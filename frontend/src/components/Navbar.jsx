@@ -12,8 +12,8 @@ const Navbar = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const token = localStorage.getItem("token");
-    const {cart} = useSelector((store=> store.product));
-    const admin = user?.role ?true :false;
+    const { cart } = useSelector((store => store.product));
+    const admin = user?.role ? true : false;
 
     const logoutHandler = async () => {
         try {
@@ -27,8 +27,8 @@ const Navbar = () => {
                 toast.success(resp.data.message)
             }
         } catch (error) {
-            console.log(error);
-
+            toast.error(error.message)
+            console.log("Error in logouthandler :",error.message);
         }
     }
 
@@ -47,19 +47,18 @@ const Navbar = () => {
 
                 {/* Nav */}
                 <nav className="flex gap-8 items-center font-semibold">
-
                     <ul className="flex gap-6 items-center">
                         <Link to="/"><li>Home</li></Link>
                         <Link to="/products"><li>Products</li></Link>
                         {user && <Link to={`/profile/${user._id}`}><li>Hello {user.firstName}</li></Link>}
-                         {admin && <Link to={`/dashboard/sales`} onClick={()=> Navigate("/dashboard/sales")}><li>Dashboard</li></Link>}
+                        {admin && <Link to={`/dashboard/sales`} onClick={() => Navigate("/dashboard/sales")}><li>Dashboard</li></Link>}
                     </ul>
 
                     {/* Cart */}
                     <Link to="/cart" className="relative">
                         <ShoppingCart size={24} />
                         <span className="absolute -top-2 -right-3 bg-green-600 text-white text-xs px-2 py-0.5 rounded-full">
-                            {cart?.items?.length||0}
+                            {cart?.items?.length || 0}
                         </span>
                     </Link>
 

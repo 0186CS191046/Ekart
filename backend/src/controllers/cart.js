@@ -10,7 +10,7 @@ export const getAllCarts = async (req, res) => {
         }
         return res.status(200).json({ success: true, message: "Cart fetched successfully!", cart: carts })
     } catch (error) {
-        console.log(error);
+        console.log("Error getting getAllCarts", error.message);
         return res.status(500).json({ success: false, message: "Something went wrong!" })
     }
 };
@@ -54,7 +54,7 @@ export const addToCart = async (req, res) => {
 
         return res.status(200).json({ success: true, message: "Product added to cart!", cart: populateCart })
     } catch (error) {
-        console.log(error);
+       console.log("Error adding addToCart", error.message);
         return res.status(500).json({ success: false, message: "Something went wrong!" })
     }
 }
@@ -108,7 +108,7 @@ export const removeFromCart = async (req, res) => {
         await cart.save()
         return res.status(200).json({ success: true, message: "Cart deleted successfully!", cart })
     } catch (error) {
-        console.log(error);
+        console.log("Error removing removeFromCart", error.message);
         return res.status(500).json({ success: false, message: "Something went wrong!" })
     }
 };

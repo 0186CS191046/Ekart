@@ -3,6 +3,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { ResponsiveContainer, XAxis, YAxis, Area, AreaChart, Tooltip } from "recharts"
+import Spinner from "@/components/spinner";
 
 const AdminSales = () => {
     const [states, setStates] = useState({
@@ -12,6 +13,7 @@ const AdminSales = () => {
         totalSales: 0,
         salesByDate: []
     });
+    const [loading, setLoading] = useState(true)
 
     const fetchStates = async () => {
         try {
@@ -29,6 +31,8 @@ const AdminSales = () => {
         } catch (error) {
             console.log("Error fetching Sales Data...");
             toast.error("Error fetching Sales Data...")
+        } finally {
+            setLoading(false)
         }
     };
 
@@ -36,10 +40,12 @@ const AdminSales = () => {
         fetchStates();
     }, [])
 
-    console.log("states-------",states);
     const sales = [{ date: "2026-04-01", amount: 100 },
-  { date: "2026-04-02", amount: 200 }]
-    
+    { date: "2026-04-02", amount: 200 }]
+
+    if(loading){
+        return(<Spinner/>)
+    }else{
     return (
         <div className="bg-gray-100 py-20 mx-auto px-4">
             <div className="p-6 grid gap-6 lg:grid-cols-4">
@@ -107,6 +113,7 @@ const AdminSales = () => {
 
         </div>
     )
+}
 };
 
 export default AdminSales;

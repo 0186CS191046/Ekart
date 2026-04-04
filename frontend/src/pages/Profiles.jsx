@@ -67,7 +67,7 @@ const Profile = () => {
                 dispatch(setUser(resp.data.user))
             }
         } catch (error) {
-            console.log(error);
+            console.log("Error in handleSubmit :",error.message);
             toast.error("Failed to update profile...")
 
         }

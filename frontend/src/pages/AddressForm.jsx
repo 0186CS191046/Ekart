@@ -40,7 +40,6 @@ const AddressForm = () => {
     const tax = parseFloat(subtotal * 0.05).toFixed(2);
     const total = subtotal + Number(tax) + shipping;
 
-    console.log("====total",total,cart.totalPrice,shipping,tax)
     const navigate = useNavigate()
 
     const handlePayment = async () => {
@@ -61,8 +60,6 @@ const AddressForm = () => {
                 return toast.error(data.message)
             }
 
-            console.log("razorpay:", data);
-
             const options = {
                 key: import.meta.env.VITE_RAZORPAY_KEY,
                 amount: data.razorpayOrder.amount,
@@ -73,7 +70,11 @@ const AddressForm = () => {
                 handler: async function (response) {
                     try {
                         const verifyRes = await axios.post(`${import.meta.env.VITE_URL}/api/v1/order/verify`,
-                            response
+                            {
+                                razorpay_order_id: response.razorpay_order_id,
+                                razorpay_payment_id: response.razorpay_payment_id,
+                                razorpay_signature: response.razorpay_signature
+                            }
                             , {
                                 headers: {
                                     Authorization: `Bearer ${token}`
@@ -116,11 +117,11 @@ const AddressForm = () => {
             };
             const rzp = new window.Razorpay(options);
             // Listen for payment failures
-          
-            
+
+
             rzp.on("payment.failed", async function (response) {
                 await axios.post(`${import.meta.env.VITE_URL}/api/v1/order/verify`, {
-                    razorpay_order_id:response?.error?.metadata?.order_id,
+                    razorpay_order_id: response?.error?.metadata?.order_id,
                     paymentFailed: true
                 }, {
                     headers: {
@@ -131,8 +132,7 @@ const AddressForm = () => {
             });
             rzp.open()
         } catch (error) {
-            console.log("error",error);
-            
+            console.log("Error in handlePayment :", error.message);
             toast.error("Something went wrong while processing payment!")
         }
     }

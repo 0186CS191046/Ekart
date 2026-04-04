@@ -1,3 +1,4 @@
+import Spinner from "@/components/spinner";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -32,8 +33,8 @@ const AdminOrders = () => {
     }, [token]);
 
     if (loading) {
-        return <div className="text-center py-20 text-gray-500">Loading all orders...</div>
-    }
+        return (<Spinner/>)
+    }else{
     return (
         <div className="py-20 mx-auto px-4">
             <h1 className="text-3xl font-bold mb-6">Admin - All Orders</h1>
@@ -91,6 +92,7 @@ const AdminOrders = () => {
             )}
         </div>
     )
+}
 };
 
 export default AdminOrders;
