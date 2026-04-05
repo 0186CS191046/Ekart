@@ -14,7 +14,7 @@ import { Button } from "@/components/ui/button";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "sonner";
-import Spinner from "@/components/spinner";
+import Spinner from "../components/Spinner";
 
 const Signup = () => {
     const [showPassword, setShowPassword] = useState(false);

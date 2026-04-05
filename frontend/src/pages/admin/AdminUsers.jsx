@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import userLogo from "../../assets/default.jpg"
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
-import Spinner from "@/components/spinner";
+import Spinner from "@/components/Spinner";
 
 const AdminUsers = () => {
     const [allUsers, setAllUsers] = useState([]);

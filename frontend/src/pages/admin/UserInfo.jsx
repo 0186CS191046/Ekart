@@ -10,7 +10,7 @@ import axios from "axios";
 import { toast } from "sonner";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { setUser } from "@/redux/userSlice";
-import Spinner from "@/components/spinner";
+import Spinner from "@/components/Spinner";
 
 const UserInfo = () => {
     // const    

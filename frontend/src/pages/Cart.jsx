@@ -10,7 +10,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { setCart } from "@/redux/productSlice";
 import { toast } from "sonner";
-import Spinner from "@/components/spinner";
+import Spinner from "../components/Spinner";
 
 const apiURL = "http://localhost:8090/api/v1";
 
