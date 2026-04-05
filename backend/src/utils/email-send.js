@@ -15,7 +15,7 @@ export const emailVerify = (token, email) => {
         to: email,
         subject: "Email Verification",
         text: `Hi! There, 
-        You have recently visited our website and entered your email http://localhost:5173/verify/${token}
+        You have recently visited our website and entered your email https://ekart-1-1hme.onrender.com/verify/${token}
         Thanks`
     }
 

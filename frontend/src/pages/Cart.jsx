@@ -12,7 +12,7 @@ import { setCart } from "@/redux/productSlice";
 import { toast } from "sonner";
 import Spinner from "../components/Spinner";
 
-const apiURL = "http://localhost:8090/api/v1";
+const apiURL = `${import.meta.env.VITE_URL}/api/v1`;
 
 const Cart = () => {
     const { cart } = useSelector(store => store.product);

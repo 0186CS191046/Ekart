@@ -34,7 +34,7 @@ const Signin = () => {
         e.preventDefault();
         try {
             setLoading(true)
-            const response = await axios.post("http://localhost:8090/api/v1/login", formdata, {
+            const response = await axios.post(`${import.meta.env.VITE_URL}/api/v1/login`, formdata, {
                 headers: { "Content-Type": "application/json" },
                 withCredentials:true
             })
