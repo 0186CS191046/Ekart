@@ -47,7 +47,7 @@ const UserInfo = () => {
                 formData.append("file", file); //image file for backend multer
             }
 
-            const resp = await axios.put(`http://localhost:8090/api/v1/user/${userId}`, formData, {
+            const resp = await axios.put(`${import.meta.env.VITE_URL}/api/v1/user/${userId}`, formData, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                     "Content-Type": "multipart/form-data"
@@ -68,7 +68,7 @@ const UserInfo = () => {
     const dispatch = useDispatch();
     const getUserDetails = async () => {
         try {
-            const res = await axios.get(`http://localhost:8090/api/v1/user/${userId}`);
+            const res = await axios.get(`${import.meta.env.VITE_URL}/api/v1/user/${userId}`);
 
             if (res.data.success) {
                 setUpdateUser(res.data.users)

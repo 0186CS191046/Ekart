@@ -12,7 +12,7 @@ const ProductDesc = ({ product }) => {
     const dispatch = useDispatch();
     const addToCart = async (productId) => {
         try {
-            const res = await axios.post(`http://localhost:8090/api/v1/cart`, { "productId": productId }, {
+            const res = await axios.post(`${import.meta.env.VITE_URL}/api/v1/cart`, { "productId": productId }, {
                 headers: {
                     "Authorization": `Bearer ${token}`
                 }

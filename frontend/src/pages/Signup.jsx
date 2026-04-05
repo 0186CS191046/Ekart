@@ -31,7 +31,7 @@ const Signup = () => {
         e.preventDefault();
         try {
             setLoading(true)
-            const response = await axios.post("http://localhost:8090/api/v1/register", formdata, {
+            const response = await axios.post(`${import.meta.env.VITE_URL}/api/v1/register`, formdata, {
                 headers: { "Content-Type": "application/json" }
             })
             if (response.data.success) {

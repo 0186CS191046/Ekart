@@ -55,7 +55,7 @@ const Profile = () => {
                 formData.append("file", file); //image file for backend multer
             }
 
-            const resp = await axios.put(`http://localhost:8090/api/v1/user/${userId}`, formData, {
+            const resp = await axios.put(`${import.meta.env.VITE_URL}/api/v1/user/${userId}`, formData, {
                 headers: {
                     Authorization: `Bearer ${acccessToken}`,
                     "Content-Type": "multipart/form-data"

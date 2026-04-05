@@ -96,7 +96,7 @@ const AdminProducts = () => {
         });
 
         try {
-            const res = await axios.put(`http://localhost:8090/api/v1/product/${editProduct._id}`, formData, {
+            const res = await axios.put(`${import.meta.env.VITE_URL}/api/v1/product/${editProduct._id}`, formData, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                     "Content-Type": "multipart/form-data"
@@ -121,7 +121,7 @@ const AdminProducts = () => {
         setLoading(true);
         try {
             const remainingProducts = products.filter((prod) => prod._id !== productId)
-            const res = await axios.delete(`http://localhost:8090/api/v1/product/${productId}`, {
+            const res = await axios.delete(`${import.meta.env.VITE_URL}/api/v1/product/${productId}`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }

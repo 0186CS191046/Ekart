@@ -17,7 +17,7 @@ const Navbar = () => {
 
     const logoutHandler = async () => {
         try {
-            const resp = await axios.post("http://localhost:8090/api/v1/logout", {}, {
+            const resp = await axios.post(`${import.meta.env.VITE_URL}/api/v1/logout`, {}, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
