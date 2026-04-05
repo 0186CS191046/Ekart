@@ -3,7 +3,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { ResponsiveContainer, XAxis, YAxis, Area, AreaChart, Tooltip } from "recharts"
-import Spinner from "@/components/spinner";
+import Spinner from "@/components/Spinner";
 
 const AdminSales = () => {
     const [states, setStates] = useState({

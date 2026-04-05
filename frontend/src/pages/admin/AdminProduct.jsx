@@ -39,7 +39,7 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
-import Spinner from "@/components/spinner";
+import Spinner from "@/components/Spinner";
 
 const AdminProducts = () => {
     const { products } = useSelector(store => store.product);

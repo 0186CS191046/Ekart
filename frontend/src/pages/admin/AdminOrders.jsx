@@ -1,4 +1,4 @@
-import Spinner from "@/components/spinner";
+import Spinner from "@/components/Spinner";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { toast } from "sonner";
