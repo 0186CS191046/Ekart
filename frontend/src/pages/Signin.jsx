@@ -16,7 +16,7 @@ import axios from "axios";
 import { toast } from "sonner";
 import { useDispatch } from "react-redux";
 import { setUser } from "../redux/userSlice";
-import Spinner from "@/components/spinner";
+import Spinner from "../components/Spinner";
 
 const Signin = () => {
     const [showPassword, setShowPassword] = useState(false);
