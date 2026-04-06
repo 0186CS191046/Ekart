@@ -18,7 +18,7 @@ const AdminUsers = () => {
     const token = localStorage.getItem("token")
     const fetchUsers = async () => {
         try {
-            const res = await axios.get("${import.meta.env.VITE_URL}/api/v1/users", {
+            const res = await axios.get(`${import.meta.env.VITE_URL}/api/v1/users`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
